@@ -141,9 +141,22 @@ class UniversalReportScheduler(models.Model):
         next_call = self._calculate_next_execution()
 
         # Створення нового завдання cron
+        try:
+            model_id = self.env['ir.model'].search([
+                ('model', '=', 'universal.report.scheduler')
+            ], limit=1).id
+        except:
+            # Fallback - створюємо запис якщо не існує
+            model_id = self.env['ir.model'].create({
+                'name': 'Universal Report Scheduler',
+                'model': 'universal.report.scheduler',
+                'state': 'base'
+            }).id
+
+            # Створення нового завдання cron
         cron_vals = {
             'name': f'Звіт: {self.name}',
-            'model_id': self.env.ref('universal_reports.model_universal_report_scheduler').id,
+            'model_id': model_id,
             'code': f'model.browse({self.id}).execute_scheduled_report()',
             'active': True,
             'interval_type': self.interval_type,

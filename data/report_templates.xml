@@ -5,7 +5,8 @@
         <record id="template_partners_report" model="universal.report.builder">
             <field name="name">Отчет по партнерам</field>
             <field name="description">Базовый отчет по клиентам и поставщикам</field>
-            <field name="model_id" ref="base.model_res_partner"/>
+            <!-- ВИПРАВЛЕННЯ: використовуємо eval замість ref для ir.model -->
+            <field name="model_id" eval="ref('base.model_res_partner')"/>
             <field name="is_template">True</field>
             <field name="format_type">table</field>
         </record>
@@ -61,7 +62,8 @@
         <record id="template_users_report" model="universal.report.builder">
             <field name="name">Отчет по пользователям</field>
             <field name="description">Отчет по пользователям системы</field>
-            <field name="model_id" ref="base.model_res_users"/>
+            <!-- ВИПРАВЛЕННЯ: використовуємо eval замість ref для ir.model -->
+            <field name="model_id" eval="ref('base.model_res_users')"/>
             <field name="is_template">True</field>
             <field name="format_type">table</field>
         </record>

@@ -22,6 +22,7 @@ class UniversalReportBuilder(models.Model):
 
     name = fields.Char('Назва звіту', required=True, translate=True)
     description = fields.Text('Опис', translate=True)
+
     model_id = fields.Many2one('ir.model', 'Модель даних', required=True,
                                domain=[('transient', '=', False)])
     model_name = fields.Char(related='model_id.model', store=True, readonly=True)
@@ -71,6 +72,16 @@ class UniversalReportBuilder(models.Model):
 
     active = fields.Boolean('Активний', default=True)
     color = fields.Integer('Колір')
+
+    # Додаємо захист на рівні Python для запобігання видалення використовуваних моделей
+    @api.constrains('model_id')
+    def _check_model_deletion(self):
+        """Перевіряємо, що модель не видаляється якщо використовується в звітах"""
+        for record in self:
+            if record.model_id:
+                # Додаткова перевірка на наявність моделі
+                if not self.env['ir.model'].browse(record.model_id.id).exists():
+                    raise ValidationError(_('Модель "%s" не може бути видалена, оскільки використовується в звітах') % record.model_id.name)
 
     @api.constrains('field_ids')
     def _check_fields_exist(self):
@@ -384,10 +395,6 @@ class UniversalReportBuilder(models.Model):
             'target': 'new',
             'context': {'default_report_id': self.id}
         }
-
-#    def export_to_excel(self, data):
-#        exporter = ReportExporter(self, data)
-#        return base64.b64encode(exporter.to_excel())
 
     def export_to_pdf(self, data):
         exporter = ReportExporter(self, data)
