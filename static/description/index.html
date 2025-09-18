@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Універсальний генератор звітів для Odoo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .content {
+            padding: 2rem 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .screenshot {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .screenshot img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .installation-steps {
+            background: #e8f4fd;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .installation-steps h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .pricing {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .pricing h3 {
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .support-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0.2rem;
+        }
+
+        .version-info {
+            text-align: center;
+            margin: 2rem 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header { padding: 2rem 1rem; }
+            .content { padding: 1rem; }
+            .header h1 { font-size: 2rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Универсальний генератор звітів</h1>
+            <p>Потужний конструктор звітів для Odoo 17 як у 1С</p>
+        </div>
+
+        <div class="content">
+            <h2>📊 Можливості модуля</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Візуальний конструктор</div>
+                    <div class="feature-description">
+                        Інтуїтивно зрозумілий інтерфейс для створення звітів
+                        без програмування, як в 1С
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗄️</div>
+                    <div class="feature-title">Універсальність</div>
+                    <div class="feature-description">
+                        Працює з будь-якими моделями даних Odoo -
+                        партнери, продажі, склад, фінанси
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-title">Потужні фільтри</div>
+                    <div class="feature-description">
+                        Гнучка система фільтрації з підтримкою
+                        складних умов та операторів
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <div class="feature-title">Групування та агрегація</div>
+                    <div class="feature-description">
+                        Створення зведених таблиць з автоматичним
+                        підрахунком підсумків і середніх значень
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <div class="feature-title">Множинний експорт</div>
+                    <div class="feature-description">
+                        Експорт у Excel, PDF, CSV, JSON з професійним
+                        оформленням та форматуванням
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <div class="feature-title">Планувальник</div>
+                    <div class="feature-description">
+                        Автоматичне виконання звітів за розкладом
+                        з відправкою на email
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-title">Шаблони звітів</div>
+                    <div class="feature-description">
+                        Готові шаблони для швидкого старту та
+                        можливість створення власних
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <div class="feature-title">Система безпеки</div>
+                    <div class="feature-description">
+                        3 рівні доступу з детальним контролем прав
+                        на рівні користувачів та груп
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🇺🇦</div>
+                    <div class="feature-title">Українська локалізація</div>
+                    <div class="feature-description">
+                        Повна підтримка української мови - інтерфейс,
+                        повідомлення, документація
+                    </div>
+                </div>
+            </div>
+
+            <div class="screenshot">
+                <h3>Скріншот інтерфейсу</h3>
+                <!-- Тут буде скріншот після створення -->
+                <div style="background: #f0f2f5; padding: 50px; border-radius: 12px; color: #666;">
+                    📸 Скріншот інтерфейсу конструктора звітів<br>
+                    (буде додано після встановлення)
+                </div>
+            </div>
+
+            <div class="installation-steps">
+                <h3>🔧 Швидке встановлення</h3>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Завантажте модуль</strong><br>
+                        Скопіюйте папку модуля до директорії addons вашого Odoo
+                        <div class="code-block">cp -r universal_reports /шлях/до/odoo/addons/</div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>Оновіть список модулів</strong><br>
+                        В інтерфейсі Odoo перейдіть до: Налаштування → Модулі → Оновити список модулів
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>Встановіть модуль</strong><br>
+                        Знайдіть "Універсальний генератор звітів" та натисніть "Встановити"
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <strong>Почніть користуватися</strong><br>
+                        Перейдіть до меню "Звіти" → "Конструктор звітів"
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing">
+                <h3>💰 Ціна модуля</h3>
+                <div class="price">БЕЗКОШТОВНО</div>
+                <p>Повнофункціональний модуль з відкритим вихідним кодом</p>
+                <div>
+                    <span class="badge">Ліцензія LGPL-3</span>
+                    <span class="badge">Підтримка спільноти</span>
+                    <span class="badge">Регулярні оновлення</span>
+                </div>
+            </div>
+
+            <h2>🎯 Для кого цей модуль?</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div class="feature-card">
+                    <strong>👨‍💼 Менеджери</strong><br>
+                    Створення звітів без допомоги IT
+                </div>
+                <div class="feature-card">
+                    <strong>👩‍💻 IT спеціалісти</strong><br>
+                    Швидка розробка звітів для користувачів
+                </div>
+                <div class="feature-card">
+                    <strong>👨‍💼 Аналітики</strong><br>
+                    Гнучкий інструмент для аналізу даних
+                </div>
+                <div class="feature-card">
+                    <strong>🏢 Компанії</strong><br>
+                    Економія часу та ресурсів на звітність
+                </div>
+            </div>
+
+            <h2>🔄 Міграція з інших систем</h2>
+            <p>Модуль особливо корисний для компаній, що переходять з 1С на Odoo,
+               оскільки надає знайомий функціонал конструктора звітів.</p>
+
+            <div class="support-info">
+                <h3>🤝 Підтримка та допомога</h3>
+                <p><strong>📧 Email:</strong> support@example.com</p>
+                <p><strong>🐛 GitHub:</strong> github.com/your-repo/universal-reports</p>
+                <p><strong>📚 Документація:</strong> wiki.example.com/universal-reports</p>
+                <p><strong>💬 Спільнота:</strong> Telegram чат для користувачів</p>
+            </div>
+
+            <h2>🗓️ План розвитку</h2>
+            <ul>
+                <li>✅ <strong>v1.0</strong> - Базовий функціонал конструктора</li>
+                <li>🚧 <strong>v1.1</strong> - Покращений PDF експорт</li>
+                <li>📋 <strong>v1.2</strong> - Графіки та діаграми</li>
+                <li>📋 <strong>v1.3</strong> - API для інтеграції</li>
+                <li>📋 <strong>v2.0</strong> - Дашборди та KPI</li>
+            </ul>
+
+            <div class="version-info">
+                <p>
+                    <strong>Версія:</strong> 17.0.1.0.0 &nbsp;|&nbsp;
+                    <strong>Сумісність:</strong> Odoo 17.0+ &nbsp;|&nbsp;
+                    <strong>Мова:</strong> Українська, Англійська &nbsp;|&nbsp;
+                    <strong>Автор:</strong> IT Professional
+                </p>
+                <p><em>Останнє оновлення: Грудень 2024</em></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

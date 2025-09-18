@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Список планувальників -->
+    <record id="view_universal_report_scheduler_tree" model="ir.ui.view">
+        <field name="name">universal.report.scheduler.tree</field>
+        <field name="model">universal.report.scheduler</field>
+        <field name="arch" type="xml">
+            <tree string="Планувальники звітів" create="true" edit="true" delete="true"
+                  decoration-muted="not active" decoration-danger="last_error">
+                <field name="name"/>
+                <field name="report_id"/>
+                <field name="interval_type"/>
+                <field name="interval_number"/>
+                <field name="execution_time" widget="float_time"/>
+                <field name="last_execution" optional="show"/>
+                <field name="next_execution" optional="show"/>
+                <field name="execution_count" optional="show"/>
+                <field name="active" optional="hide"/>
+                <field name="last_error" optional="hide"/>
+                <button name="action_execute_now" type="object"
+                        string="Виконати зараз" class="btn-success"
+                        icon="fa-play" title="Виконати звіт зараз"
+                        invisible="not active"/>
+                <button name="toggle_active" type="object"
+                        string="Увімкнути/Вимкнути" class="btn-warning"
+                        icon="fa-power-off" title="Перемкнути активність"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Канбан планувальників -->
+    <record id="view_universal_report_scheduler_kanban" model="ir.ui.view">
+        <field name="name">universal.report.scheduler.kanban</field>
+        <field name="model">universal.report.scheduler</field>
+        <field name="arch" type="xml">
+            <kanban string="Планувальники" default_group_by="interval_type" class="o_kanban_dashboard">
+                <field name="name"/>
+                <field name="report_id"/>
+                <field name="interval_type"/>
+                <field name="interval_number"/>
+                <field name="last_execution"/>
+                <field name="next_execution"/>
+                <field name="execution_count"/>
+                <field name="active"/>
+                <field name="last_error"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click"
+                             t-att-class="record.active.raw_value ? '' : 'oe_kanban_color_2'">
+                            <div class="o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-end">
+                                            <i t-if="record.active.raw_value"
+                                               class="fa fa-check text-success" title="Активний"/>
+                                            <i t-if="!record.active.raw_value"
+                                               class="fa fa-pause text-warning" title="Неактивний"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <field name="report_id"/>
+                                </div>
+                                <div class="text-muted">
+                                    Кожні <field name="interval_number"/>
+                                    <field name="interval_type"/>
+                                </div>
+                                <div t-if="record.next_execution.raw_value" class="text-info">
+                                    Наступне: <field name="next_execution"/>
+                                </div>
+                                <div t-if="record.execution_count.raw_value > 0" class="text-success">
+                                    Виконано: <field name="execution_count"/> разів
+                                </div>
+                                <div t-if="record.last_error.raw_value" class="text-danger">
+                                    <i class="fa fa-exclamation-triangle"/> Помилка
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Форма планувальника -->
+    <record id="view_universal_report_scheduler_form" model="ir.ui.view">
+        <field name="name">universal.report.scheduler.form</field>
+        <field name="model">universal.report.scheduler</field>
+        <field name="arch" type="xml">
+            <form string="Планувальник звітів">
+                <header>
+                    <!-- Кнопки будуть додані після створення відповідних методів в моделі -->
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Назва планувальника"/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="Основні налаштування" name="general">
+                            <group>
+                                <group>
+                                    <field name="report_id" required="1"/>
+                                    <field name="description"/>
+                                    <field name="active"/>
+                                </group>
+                                <group>
+                                    <field name="interval_type" required="1"/>
+                                    <field name="interval_number" required="1"/>
+                                    <field name="execution_time" widget="float_time"
+                                           help="Час виконання у форматі HH:MM"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Статистика виконання" name="statistics">
+                            <group>
+                                <group string="Інформація про виконання">
+                                    <field name="execution_count" readonly="1"/>
+                                    <field name="last_execution" readonly="1"/>
+                                    <field name="next_execution" readonly="1"/>
+                                </group>
+                                <group string="Помилки">
+                                    <field name="last_error" readonly="1" widget="text"
+                                           invisible="not last_error"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Налаштування відправки" name="email_settings">
+                            <group>
+                                <field name="email_recipients"/>
+                                <field name="email_subject"/>
+                            </group>
+                        </page>
+
+                        <page string="Технічна інформація" name="technical"
+                              groups="base.group_no_one">
+                            <group>
+                                <field name="cron_id" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Пошук планувальників -->
+    <record id="view_universal_report_scheduler_search" model="ir.ui.view">
+        <field name="name">universal.report.scheduler.search</field>
+        <field name="model">universal.report.scheduler</field>
+        <field name="arch" type="xml">
+            <search string="Пошук планувальників">
+                <field name="name" string="Назва"/>
+                <field name="report_id" string="Звіт"/>
+                <field name="description" string="Опис"/>
+
+                <filter name="active" string="Активні" domain="[('active', '=', True)]"
+                        help="Показати тільки активні планувальники"/>
+                <filter name="inactive" string="Неактивні" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter name="with_errors" string="З помилками" domain="[('last_error', '!=', False)]"/>
+                <filter name="executed" string="Виконувалися" domain="[('execution_count', '>', 0)]"/>
+                <filter name="never_executed" string="Ніколи не виконувалися" domain="[('execution_count', '=', 0)]"/>
+                <separator/>
+                <filter name="daily" string="Щоденні" domain="[('interval_type', '=', 'days')]"/>
+                <filter name="weekly" string="Щотижневі" domain="[('interval_type', '=', 'weeks')]"/>
+                <filter name="monthly" string="Щомісячні" domain="[('interval_type', '=', 'months')]"/>
+
+                <group expand="0" string="Групування">
+                    <filter name="group_report" string="За звітом" context="{'group_by': 'report_id'}"/>
+                    <filter name="group_interval" string="За інтервалом" context="{'group_by': 'interval_type'}"/>
+                    <filter name="group_active" string="За статусом" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Дія для планувальників -->
+    <record id="action_universal_report_scheduler" model="ir.actions.act_window">
+        <field name="name">Планувальники звітів</field>
+        <field name="res_model">universal.report.scheduler</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_universal_report_scheduler_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Створіть ваш перший планувальник звітів!
+            </p>
+            <p>
+                Планувальники дозволяють автоматично генерувати звіти
+                за розкладом та відправляти їх електронною поштою.
+            </p>
+        </field>
+    </record>
+</odoo>

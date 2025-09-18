@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Шаблон отчета по партнерам -->
+        <record id="template_partners_report" model="universal.report.builder">
+            <field name="name">Отчет по партнерам</field>
+            <field name="description">Базовый отчет по клиентам и поставщикам</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="is_template">True</field>
+            <field name="format_type">table</field>
+        </record>
+
+        <!-- Поля для отчета по партнерам -->
+        <record id="template_partners_field_name" model="universal.report.field">
+            <field name="report_id" ref="template_partners_report"/>
+            <field name="sequence">1</field>
+            <field name="field_name">name</field>
+            <field name="field_label">Название</field>
+            <field name="field_type">char</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_partners_field_email" model="universal.report.field">
+            <field name="report_id" ref="template_partners_report"/>
+            <field name="sequence">2</field>
+            <field name="field_name">email</field>
+            <field name="field_label">Email</field>
+            <field name="field_type">char</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_partners_field_phone" model="universal.report.field">
+            <field name="report_id" ref="template_partners_report"/>
+            <field name="sequence">3</field>
+            <field name="field_name">phone</field>
+            <field name="field_label">Телефон</field>
+            <field name="field_type">char</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_partners_field_customer" model="universal.report.field">
+            <field name="report_id" ref="template_partners_report"/>
+            <field name="sequence">4</field>
+            <field name="field_name">is_company</field>
+            <field name="field_label">Компания</field>
+            <field name="field_type">boolean</field>
+            <field name="visible">True</field>
+        </record>
+
+        <!-- Фильтр активных партнеров -->
+        <record id="template_partners_filter_active" model="universal.report.filter">
+            <field name="report_id" ref="template_partners_report"/>
+            <field name="name">Только активные</field>
+            <field name="field_name">active</field>
+            <field name="operator">=</field>
+            <field name="value">True</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Шаблон отчета по пользователям -->
+        <record id="template_users_report" model="universal.report.builder">
+            <field name="name">Отчет по пользователям</field>
+            <field name="description">Отчет по пользователям системы</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="is_template">True</field>
+            <field name="format_type">table</field>
+        </record>
+
+        <!-- Поля для отчета по пользователям -->
+        <record id="template_users_field_name" model="universal.report.field">
+            <field name="report_id" ref="template_users_report"/>
+            <field name="sequence">1</field>
+            <field name="field_name">name</field>
+            <field name="field_label">Имя пользователя</field>
+            <field name="field_type">char</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_users_field_login" model="universal.report.field">
+            <field name="report_id" ref="template_users_report"/>
+            <field name="sequence">2</field>
+            <field name="field_name">login</field>
+            <field name="field_label">Логин</field>
+            <field name="field_type">char</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_users_field_active" model="universal.report.field">
+            <field name="report_id" ref="template_users_report"/>
+            <field name="sequence">3</field>
+            <field name="field_name">active</field>
+            <field name="field_label">Активен</field>
+            <field name="field_type">boolean</field>
+            <field name="visible">True</field>
+        </record>
+
+        <record id="template_users_field_login_date" model="universal.report.field">
+            <field name="report_id" ref="template_users_report"/>
+            <field name="sequence">4</field>
+            <field name="field_name">login_date</field>
+            <field name="field_label">Последний вход</field>
+            <field name="field_type">datetime</field>
+            <field name="visible">True</field>
+        </record>
+    </data>
+
+    <!-- Действие для шаблонов -->
+    <record id="action_universal_report_templates" model="ir.actions.act_window">
+        <field name="name">Шаблоны отчетов</field>
+        <field name="res_model">universal.report.builder</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_template', '=', True)]</field>
+        <field name="context">{'default_is_template': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Создайте шаблон отчета!
+            </p>
+            <p>
+                Шаблоны отчетов можно использовать как основу
+                для создания новых отчетов.
+            </p>
+        </field>
+    </record>
+</odoo>

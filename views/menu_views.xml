@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Головне меню -->
+    <menuitem id="menu_universal_reports_main"
+              name="Звіти"
+              sequence="90"
+              groups="group_universal_reports_user"
+              web_icon="static/description/icon.png"/>
+
+    <!-- Підменю -->
+    <menuitem id="menu_universal_reports_builder"
+              name="Конструктор звітів"
+              parent="menu_universal_reports_main"
+              action="action_universal_report_builder"
+              sequence="10"
+              groups="group_universal_reports_author"/>
+
+    <menuitem id="menu_universal_reports_templates"
+              name="Шаблони звітів"
+              parent="menu_universal_reports_main"
+              action="action_universal_report_templates"
+              sequence="20"
+              groups="group_universal_reports_author"/>
+
+    <menuitem id="menu_universal_reports_scheduler"
+              name="Планувальник звітів"
+              parent="menu_universal_reports_main"
+              action="action_universal_report_scheduler"
+              sequence="30"
+              groups="group_universal_reports_author"/>
+
+    <!-- Підменю для адміністрування -->
+    <menuitem id="menu_universal_reports_admin"
+              name="Адміністрування"
+              parent="menu_universal_reports_main"
+              sequence="90"
+              groups="group_universal_reports_manager"/>
+
+    <menuitem id="menu_universal_reports_all"
+              name="Всі звіти"
+              parent="menu_universal_reports_admin"
+              sequence="10"
+              groups="group_universal_reports_manager">
+
+    </menuitem>
+
+    <menuitem id="menu_universal_reports_users"
+              name="Користувачі звітів"
+              parent="menu_universal_reports_admin"
+              action="base.action_res_users"
+              sequence="20"
+              groups="group_universal_reports_manager"/>
+
+            <record id="action_all_reports" model="ir.actions.act_window">
+            <field name="name">Всі звіти</field>
+            <field name="res_model">universal.report.builder</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="view_universal_report_builder_search"/>
+            <field name="context">{}</field>
+        </record>
+
+</odoo>
