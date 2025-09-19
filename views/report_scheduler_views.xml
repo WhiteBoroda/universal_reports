@@ -183,8 +183,6 @@
             </search>
         </field>
     </record>
-
-    <!-- Дія для планувальників -->
     <record id="action_universal_report_scheduler" model="ir.actions.act_window">
         <field name="name">Планувальники звітів</field>
         <field name="res_model">universal.report.scheduler</field>
@@ -200,4 +198,8 @@
             </p>
         </field>
     </record>
+
+
+    <!-- Дія для планувальників -->
+
 </odoo>

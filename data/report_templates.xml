@@ -107,20 +107,5 @@
     </data>
 
     <!-- Действие для шаблонов -->
-    <record id="action_universal_report_templates" model="ir.actions.act_window">
-        <field name="name">Шаблоны отчетов</field>
-        <field name="res_model">universal.report.builder</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('is_template', '=', True)]</field>
-        <field name="context">{'default_is_template': True}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Создайте шаблон отчета!
-            </p>
-            <p>
-                Шаблоны отчетов можно использовать как основу
-                для создания новых отчетов.
-            </p>
-        </field>
-    </record>
+
 </odoo>

@@ -7,7 +7,7 @@ import json
 
 
 class ReportExportWizard(models.TransientModel):
-    _name = 'report.export.wizard'
+    _name = 'universal.report.export.wizard'
     _description = 'Майстер експорту звітів'
 
     report_id = fields.Many2one('universal.report.builder', string='Звіт',
@@ -326,7 +326,7 @@ class ReportExportWizard(models.TransientModel):
         """Повернути представлення майстра"""
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'report.export.wizard',
+            'res_model': 'universal.report.export.wizard',
             'res_id': self.id,
             'view_mode': 'form',
             'target': 'new',

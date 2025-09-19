@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Форма майстра експорту звітів -->
+    <record id="view_report_export_wizard_form" model="ir.ui.view">
+        <field name="name">report.export.wizard.form</field>
+        <field name="model">universal.report.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Експорт звіту">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="report_id" readonly="1"
+                                   options="{'no_open': True, 'no_create': True}"/>
+                        </h2>
+                        <h3>Майстер розширеного експорту</h3>
+                        <p class="text-muted">Налаштуйте параметри експорту для отримання звіту у потрібному форматі</p>
+                    </div>
+
+                    <!-- Вибір формату експорту -->
+                    <group string="Формат експорту">
+                        <field name="export_format" widget="radio"
+                               options="{'horizontal': false}"
+                               required="1"/>
+                    </group>
+
+                    <!-- Налаштування Excel -->
+                    <group string="Налаштування Microsoft Excel"
+                           invisible="export_format != 'excel'">
+                        <group>
+                            <field name="excel_sheet_name"
+                                   required="export_format == 'excel'"/>
+                            <field name="excel_include_charts"/>
+                        </group>
+                        <group>
+                            <field name="excel_freeze_header"/>
+                            <field name="excel_auto_filter"/>
+                        </group>
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle"/>
+                            Excel файл буде містити стилізовані заголовки, автофільтри та діаграми (якщо є числові дані)
+                        </div>
+                    </group>
+
+                    <!-- Налаштування CSV -->
+                    <group string="Налаштування CSV файлу"
+                           invisible="export_format != 'csv'">
+                        <group>
+                            <field name="csv_delimiter"
+                                   required="export_format == 'csv'"/>
+                            <field name="csv_encoding"
+                                   required="export_format == 'csv'"/>
+                        </group>
+                        <group>
+                            <field name="csv_include_headers"/>
+                        </group>
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle"/>
+                            CSV файл підходить для імпорту в інші системи та обробки в Excel
+                        </div>
+                    </group>
+
+                    <!-- Налаштування PDF -->
+                    <group string="Налаштування PDF документа"
+                           invisible="export_format != 'pdf'">
+                        <group>
+                            <field name="pdf_orientation"
+                                   required="export_format == 'pdf'"/>
+                            <field name="pdf_page_size"
+                                   required="export_format == 'pdf'"/>
+                        </group>
+                        <group>
+                            <field name="pdf_include_logo"/>
+                        </group>
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fa fa-exclamation-triangle"/>
+                            PDF підходить для друку, але може обмежувати кількість стовпців на сторінці
+                        </div>
+                    </group>
+
+                    <!-- Налаштування JSON -->
+                    <group string="Налаштування JSON даних"
+                           invisible="export_format != 'json'">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle"/>
+                            JSON формат зручний для програмної обробки та інтеграції з іншими системами.<br/>
+                            Включає метадані звіту та структуровані дані.
+                        </div>
+                    </group>
+
+                    <!-- Налаштування XML -->
+                    <group string="Налаштування XML даних"
+                           invisible="export_format != 'xml'">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle"/>
+                            XML формат підходить для обміну даними між системами та має структуровану схему.
+                        </div>
+                    </group>
+
+                    <!-- Фільтрування та обмеження -->
+                    <group string="Фільтрування та обмеження даних">
+                        <group>
+                            <field name="include_filters"/>
+                            <field name="limit_records"
+                                   help="0 = експортувати всі записи"/>
+                        </group>
+                        <group>
+                            <field name="custom_filters" widget="text" rows="3"
+                                   placeholder='[{"field": "active", "operator": "=", "value": true}, {"field": "name", "operator": "ilike", "value": "test"}]'
+                                   help="Додаткові фільтри у форматі JSON"/>
+                        </group>
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-filter"/>
+                            <strong>Приклад додаткових фільтрів:</strong><br/>
+                            <code>[{"field": "active", "operator": "=", "value": true}]</code>
+                        </div>
+                    </group>
+
+                    <!-- Результат експорту -->
+                    <group string="Результат експорту"
+                           invisible="not result_file">
+                        <field name="result_filename" readonly="1"/>
+                        <field name="result_file" filename="result_filename" readonly="1"/>
+                    </group>
+
+                    <!-- Лог експорту -->
+                    <group string="Інформація про експорт"
+                           invisible="not export_log">
+                        <field name="export_log" widget="text" readonly="1"
+                               class="o_field_text"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_export" type="object"
+                            string="Експортувати" class="btn-primary"
+                            invisible="result_file">
+                        <i class="fa fa-download"/> Експортувати
+                    </button>
+
+                    <button name="action_download" type="object"
+                            string="Завантажити файл" class="btn-success"
+                            invisible="not result_file">
+                        <i class="fa fa-file-download"/> Завантажити
+                    </button>
+
+                    <button name="action_reset" type="object"
+                            string="Новий експорт" class="btn-secondary"
+                            invisible="not result_file">
+                        <i class="fa fa-refresh"/> Новий експорт
+                    </button>
+
+                    <button string="Закрити" special="cancel" class="btn-light">
+                        <i class="fa fa-times"/> Закрити
+                    </button>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Спрощена форма для швидкого експорту -->
+    <record id="view_report_export_wizard_simple_form" model="ir.ui.view">
+        <field name="name">report.export.wizard.simple.form</field>
+        <field name="model">universal.report.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Швидкий експорт">
+                <sheet>
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4><i class="fa fa-rocket"/> Швидкий експорт</h4>
+                        <p class="mb-0">Виберіть формат для миттєвого експорту звіту</p>
+                    </div>
+
+                    <group>
+                        <field name="report_id" readonly="1" column_invisible="1"/>
+                        <field name="export_format" widget="radio"
+                               options="{'horizontal': false}"
+                               required="1"/>
+                        <field name="limit_records"
+                               help="Залиште 0 для експорту всіх записів"/>
+                    </group>
+
+                    <!-- Показуємо основні налаштування для обраного формату -->
+                    <group invisible="export_format != 'excel'">
+                        <field name="excel_freeze_header"/>
+                        <field name="excel_auto_filter"/>
+                    </group>
+
+                    <group invisible="export_format != 'csv'">
+                        <field name="csv_delimiter"/>
+                        <field name="csv_encoding"/>
+                    </group>
+
+                    <group invisible="export_format != 'pdf'">
+                        <field name="pdf_orientation"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_export" type="object"
+                            string="Експортувати та завантажити" class="btn-primary">
+                        <i class="fa fa-download"/> Експортувати
+                    </button>
+                    <button string="Скасувати" special="cancel" class="btn-secondary">
+                        <i class="fa fa-times"/> Скасувати
+                    </button>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Дія для повного майстра експорту -->
+    <record id="action_report_export_wizard" model="ir.actions.act_window">
+        <field name="name">Розширений експорт звіту</field>
+        <field name="res_model">universal.report.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_report_export_wizard_form"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_universal_report_builder"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <!-- Дія для швидкого експорту -->
+    <record id="action_report_export_wizard_quick" model="ir.actions.act_window">
+        <field name="name">Швидкий експорт</field>
+        <field name="res_model">universal.report.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_report_export_wizard_simple_form"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_universal_report_builder"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <!-- Дія для експорту з контекстного меню -->
+    <record id="action_export_from_list" model="ir.actions.server">
+        <field name="name">Експорт у Excel</field>
+        <field name="model_id" ref="model_universal_report_builder"/>
+        <field name="binding_model_id" ref="model_universal_report_builder"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+# Швидкий експорт обраних звітів в Excel
+for record in records:
+    wizard = env['universal.report.export.wizard'].create({
+        'report_id': record.id,
+        'export_format': 'excel',
+        'excel_freeze_header': True,
+        'excel_auto_filter': True,
+    })
+    wizard.action_export()
+        </field>
+    </record>
+
+    <!-- Додавання кнопок до форми звіту -->
+    <record id="view_universal_report_builder_form_inherit_export" model="ir.ui.view">
+        <field name="name">universal.report.builder.form.inherit.export</field>
+        <field name="model">universal.report.builder</field>
+        <field name="inherit_id" ref="view_universal_report_builder_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(action_report_export_wizard)d" type="action"
+                        string="Розширений експорт" class="btn-info"
+                        invisible="not active"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

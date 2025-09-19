@@ -3,7 +3,7 @@
     <!-- Форма майстра експорту -->
     <record id="view_report_export_wizard_form" model="ir.ui.view">
         <field name="name">report.export.wizard.form</field>
-        <field name="model">report.export.wizard</field>
+        <field name="model">universal.report.export.wizard</field>
         <field name="arch" type="xml">
             <form string="Експорт звіту">
                 <sheet>
@@ -23,7 +23,7 @@
 
                     <!-- Налаштування Excel -->
                     <group string="Налаштування Excel"
-                           attrs="{'invisible': [('export_format', '!=', 'excel')]}">
+                           invisible = "export_format != excel">
                         <group>
                             <field name="excel_sheet_name"/>
                             <field name="excel_include_charts"/>
@@ -36,7 +36,7 @@
 
                     <!-- Налаштування CSV -->
                     <group string="Налаштування CSV"
-                           attrs="{'invisible': [('export_format', '!=', 'csv')]}">
+                           invisible = "export_format != csv">
                         <group>
                             <field name="csv_delimiter"/>
                             <field name="csv_encoding"/>
@@ -48,7 +48,7 @@
 
                     <!-- Налаштування PDF -->
                     <group string="Налаштування PDF"
-                           attrs="{'invisible': [('export_format', '!=', 'pdf')]}">
+                           invisible = "export_format != pdf">
                         <group>
                             <field name="pdf_orientation"/>
                             <field name="pdf_page_size"/>
@@ -70,24 +70,24 @@
 
                     <!-- Результат експорту -->
                     <group string="Результат"
-                           attrs="{'invisible': [('result_file', '=', False)]}">
+                           invisible="not result_file">
                         <field name="result_filename" readonly="1"/>
                         <field name="result_file" filename="result_filename" readonly="1"/>
                         <field name="export_log" widget="text" readonly="1"
-                               attrs="{'invisible': [('export_log', '=', False)]}"/>
+                               invisible="not export_log"/>
                     </group>
                 </sheet>
 
                 <footer>
                     <button name="action_export" type="object"
                             string="Експортувати" class="btn-primary"
-                            attrs="{'invisible': [('result_file', '!=', False)]}"/>
+                            invisible="result_file"/>
                     <button name="action_download" type="object"
                             string="Завантажити файл" class="btn-success"
-                            attrs="{'invisible': [('result_file', '=', False)]}"/>
+                            invisible="not result_file"/>
                     <button name="action_reset" type="object"
                             string="Новий експорт" class="btn-secondary"
-                            attrs="{'invisible': [('result_file', '=', False)]}"/>
+                            invisible="not result_file"/>
                     <button string="Закрити" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
@@ -97,7 +97,7 @@
     <!-- Дія майстра експорту -->
     <record id="action_report_export_wizard" model="ir.actions.act_window">
         <field name="name">Експорт звіту</field>
-        <field name="res_model">report.export.wizard</field>
+        <field name="res_model">universal.report.export.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_universal_report_builder"/>
@@ -129,15 +129,15 @@
                         <group>
                             <field name="state" readonly="1"/>
                             <field name="result_count" readonly="1"
-                                   attrs="{'invisible': [('result_count', '=', 0)]}"/>
+                                   invisible="result_count = 0"/>
                             <field name="execution_time" readonly="1"
-                                   attrs="{'invisible': [('execution_time', '=', 0)]}"/>
+                                  invisible = "execution_time=0"/>
                         </group>
                     </group>
 
                     <!-- Додаткові фільтри -->
                     <group string="Додаткові фільтри"
-                           attrs="{'invisible': [('state', 'in', ['executing'])]}">
+                           invisible="state in ['executing']">
                         <field name="filter_values" widget="text"
                                placeholder='[{"field": "active", "operator": "=", "value": true}]'
                                help="JSON з додатковими фільтрами"/>
@@ -145,21 +145,21 @@
 
                     <!-- Попередній перегляд -->
                     <group string="Попередній перегляд"
-                           attrs="{'invisible': ['|', ('export_format', '!=', 'preview'), ('result_data', '=', False)]}">
+                           invisible="export_format != 'preview' or not result_data">
                         <field name="result_data" widget="text" readonly="1"
                                height="300" string=""/>
                     </group>
 
                     <!-- Файл для завантаження -->
                     <group string="Результат експорту"
-                           attrs="{'invisible': [('result_file', '=', False)]}">
+                           invisible="result_file=False">
                         <field name="result_filename" readonly="1"/>
                         <field name="result_file" filename="result_filename" readonly="1"/>
                     </group>
 
                     <!-- Помилки -->
                     <group string="Помилка"
-                           attrs="{'invisible': [('state', '!=', 'error')]}">
+                           invisible="state!=error">
                         <field name="error_message" widget="text" readonly="1"
                                class="text-danger"/>
                     </group>
@@ -168,10 +168,10 @@
                 <footer>
                     <button name="action_execute" type="object"
                             string="Виконати" class="btn-primary"
-                            attrs="{'invisible': [('state', 'in', ['executing', 'done'])]}"/>
+                            invisible="state in ['executing', 'done']"/>
                     <button name="action_download_file" type="object"
                             string="Завантажити файл" class="btn-success"
-                            attrs="{'invisible': [('result_file', '=', False)]}"/>
+                            invisible="result_file=False"/>
                     <button name="action_back_to_report" type="object"
                             string="Повернутися до звіту" class="btn-info"/>
                     <button name="action_close" type="object"

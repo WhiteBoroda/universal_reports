@@ -117,12 +117,12 @@
                 <header>
                     <button name="action_execute_report" type="object"
                             string="Виконати звіт" class="btn-primary"
-                            attrs="{'invisible': [('active', '=', False)]}"/>
+                            invisible="not active"/>
                     <button name="action_duplicate" type="object"
                             string="Створити копію" class="btn-secondary"/>
                     <button name="action_create_scheduler" type="object"
                             string="Планувальник" class="btn-info"
-                            attrs="{'invisible': [('id', '=', False)]}"/>
+                            invisible="not id"/>
                     <field name="active" widget="boolean_toggle"/>
                 </header>
 
@@ -131,7 +131,7 @@
                         <button class="oe_stat_button" type="action" icon="fa-list-alt"
                                 name="%(action_universal_report_scheduler)d"
                                 context="{'search_default_report_id': id, 'default_report_id': id}"
-                                attrs="{'invisible': [('id', '=', False)]}">
+                                invisible="not id">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Планувальники</span>
                             </div>
@@ -139,7 +139,7 @@
                     </div>
 
                     <widget name="web_ribbon" title="Шаблон" bg_color="bg-info"
-                            attrs="{'invisible': [('is_template', '=', False)]}"/>
+                            invisible="not is_template"/>
 
                     <div class="oe_title">
                         <h1>
@@ -199,9 +199,9 @@
                                                 <field name="aggregation"/>
                                                 <field name="width"/>
                                                 <field name="decimal_places"
-                                                       attrs="{'invisible': [('format_type', 'not in', ['number', 'currency'])]}"/>
+                                                       invisible="format_type not in ['number', 'currency']"/>
                                                 <field name="thousands_separator"
-                                                       attrs="{'invisible': [('format_type', 'not in', ['number', 'currency'])]}"/>
+                                                       invisible="format_type not in ['number', 'currency']"/>
                                             </group>
                                         </group>
                                     </sheet>
@@ -336,8 +336,6 @@
             </search>
         </field>
     </record>
-
-    <!-- Дія для звітів -->
     <record id="action_universal_report_builder" model="ir.actions.act_window">
         <field name="name">Конструктор звітів</field>
         <field name="res_model">universal.report.builder</field>
@@ -363,8 +361,6 @@
             </p>
         </field>
     </record>
-
-    <!-- Дія для шаблонів -->
     <record id="action_universal_report_templates" model="ir.actions.act_window">
         <field name="name">Шаблони звітів</field>
         <field name="res_model">universal.report.builder</field>
@@ -383,4 +379,30 @@
             </p>
         </field>
     </record>
+        <record id="action_all_reports" model="ir.actions.act_window">
+        <field name="name">Всі звіти</field>
+        <field name="res_model">universal.report.builder</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_universal_report_builder_search"/>
+        <field name="context">{}</field>
+    </record>
+    <record id="action_universal_report_templates" model="ir.actions.act_window">
+        <field name="name">Шаблоны отчетов</field>
+        <field name="res_model">universal.report.builder</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_template', '=', True)]</field>
+        <field name="context">{'default_is_template': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Создайте шаблон отчета!
+            </p>
+            <p>
+                Шаблоны отчетов можно использовать как основу
+                для создания новых отчетов.
+            </p>
+        </field>
+    </record>
+
+    <!-- Дія для звітів -->
+
 </odoo>

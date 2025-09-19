@@ -51,12 +51,5 @@
               sequence="20"
               groups="group_universal_reports_manager"/>
 
-            <record id="action_all_reports" model="ir.actions.act_window">
-            <field name="name">Всі звіти</field>
-            <field name="res_model">universal.report.builder</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="search_view_id" ref="view_universal_report_builder_search"/>
-            <field name="context">{}</field>
-        </record>
 
 </odoo>

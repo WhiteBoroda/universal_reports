@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Універсальний генератор звітів',
-    'version': '17.0.1.0.1',
+    'version': '17.0.1.0.3',
     'category': 'Звітність',
     'summary': 'Конструктор звітів як у 1С',
     'description': '''
@@ -25,11 +25,11 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/report_templates.xml',
-        'views/report_builder_views.xml',
         'views/report_scheduler_views.xml',
-        'views/menu_views.xml',
+        'views/report_builder_views.xml',
         'wizard/report_wizard_views.xml',
         'wizard/export_wizard_views.xml',
+        'views/menu_views.xml'
     ],
     'assets': {
         'web.assets_backend': [

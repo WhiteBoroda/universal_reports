@@ -24,7 +24,7 @@ class UniversalReportBuilder(models.Model):
     description = fields.Text('Опис', translate=True)
 
     model_id = fields.Many2one('ir.model', 'Модель даних', required=True,
-                               domain=[('transient', '=', False)])
+                               domain=[('transient', '=', False)], ondelete='cascade')
     model_name = fields.Char(related='model_id.model', store=True, readonly=True)
 
     # Поля звіту
@@ -73,15 +73,7 @@ class UniversalReportBuilder(models.Model):
     active = fields.Boolean('Активний', default=True)
     color = fields.Integer('Колір')
 
-    # Додаємо захист на рівні Python для запобігання видалення використовуваних моделей
-    @api.constrains('model_id')
-    def _check_model_deletion(self):
-        """Перевіряємо, що модель не видаляється якщо використовується в звітах"""
-        for record in self:
-            if record.model_id:
-                # Додаткова перевірка на наявність моделі
-                if not self.env['ir.model'].browse(record.model_id.id).exists():
-                    raise ValidationError(_('Модель "%s" не може бути видалена, оскільки використовується в звітах') % record.model_id.name)
+    # Примітка: При ondelete='cascade' звіти автоматично видаляються при видаленні моделі
 
     @api.constrains('field_ids')
     def _check_fields_exist(self):
