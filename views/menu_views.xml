@@ -4,7 +4,7 @@
     <menuitem id="menu_universal_reports_main"
               name="Звіти"
               sequence="90" />
-    <!-- Підменю - только существующие actions -->
+
     <menuitem id="menu_universal_reports_builder"
               name="Конструктор звітів"
               parent="menu_universal_reports_main"

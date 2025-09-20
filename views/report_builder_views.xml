@@ -120,7 +120,7 @@
                             invisible="not active"/>
                     <button name="action_duplicate" type="object"
                             string="Створити копію" class="btn-secondary"
-                            invisible="not id"/>  <!-- Показывать только для существующих записей -->
+                            invisible="not id"/>  
                     <button name="action_create_scheduler" type="object"
                             string="Планувальник" class="btn-info"
                             invisible="not id"/>

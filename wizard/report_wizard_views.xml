@@ -96,14 +96,6 @@
         </field>
     </record>
 
-    <!-- ИСПРАВЛЕННОЕ действие экспорта - УБИРАЕМ BINDING -->
-    <record id="action_report_export_wizard" model="ir.actions.act_window">
-        <field name="name">Експорт звіту</field>
-        <field name="res_model">universal.report.export.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
-
     <!-- Форма майстера виконання звіту -->
     <record id="view_universal_report_wizard_form" model="ir.ui.view">
         <field name="name">universal.report.wizard.form</field>
@@ -181,15 +173,6 @@
         </field>
     </record>
 
-    <!-- ИСПРАВЛЕННОЕ действие быстрого экспорта - УБИРАЕМ BINDING -->
-    <record id="action_quick_export_wizard" model="ir.actions.act_window">
-        <field name="name">Швидкий експорт</field>
-        <field name="res_model">universal.report.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_quick_export_wizard_form"/>
-        <field name="target">new</field>
-    </record>
-
     <!-- Простий майстер швидкого експорту -->
     <record id="view_quick_export_wizard_form" model="ir.ui.view">
         <field name="name">quick.export.wizard.form</field>
@@ -219,14 +202,7 @@
         </field>
     </record>
 
-    <!-- ИСПРАВЛЕННОЕ действие копирования - УБИРАЕМ BINDING ПОЛНОСТЬЮ -->
-    <record id="action_copy_report_wizard" model="ir.actions.act_window">
-        <field name="name">Копіювати звіт</field>
-        <field name="res_model">universal.report.builder</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_copy_report_wizard_form"/>
-        <field name="target">new</field>
-    </record>
+
 
     <!-- Майстер копіювання звіту -->
     <record id="view_copy_report_wizard_form" model="ir.ui.view">
@@ -300,4 +276,29 @@
             </form>
         </field>
     </record>
+
+    <record id="action_quick_export_wizard" model="ir.actions.act_window">
+        <field name="name">Швидкий експорт</field>
+        <field name="res_model">universal.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_quick_export_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_copy_report_wizard" model="ir.actions.act_window">
+        <field name="name">Копіювати звіт</field>
+        <field name="res_model">universal.report.builder</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_copy_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_report_export_wizard" model="ir.actions.act_window">
+        <field name="name">Експорт звіту</field>
+        <field name="res_model">universal.report.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
 </odoo>
