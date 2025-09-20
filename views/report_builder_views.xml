@@ -20,9 +20,9 @@
                         string="Виконати" class="btn-primary"
                         icon="fa-play" title="Виконати звіт"
                         invisible="not active"/>
-                <button name="action_duplicate" type="object"
-                        string="Копіювати" class="btn-secondary"
-                        icon="fa-copy" title="Створити копію"/>
+<!--                <button name="action_duplicate" type="object"-->
+<!--                        string="Копіювати" class="btn-secondary"-->
+<!--                        icon="fa-copy" title="Створити копію"/>-->
             </tree>
         </field>
     </record>
@@ -55,7 +55,7 @@
                                     <t t-if="widget.deletable">
                                         <a role="menuitem" type="delete" class="dropdown-item">Видалити</a>
                                     </t>
-                                    <a name="action_duplicate" type="object" class="dropdown-item">Копіювати</a>
+<!--                                    <a name="action_duplicate" type="object" class="dropdown-item">Копіювати</a>-->
                                     <a name="action_create_scheduler" type="object" class="dropdown-item">Планувальник</a>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                             invisible="not active"/>
                     <button name="action_duplicate" type="object"
                             string="Створити копію" class="btn-secondary"
-                            invisible="not id"/>  
+                            invisible="not id"/>
                     <button name="action_create_scheduler" type="object"
                             string="Планувальник" class="btn-info"
                             invisible="not id"/>
@@ -138,7 +138,6 @@
                             </div>
                         </button>
 
-                        <!-- Кнопка копирования только для существующих записей -->
                         <button class="oe_stat_button" type="object"
                                 name="action_duplicate" icon="fa-copy"
                                 invisible="not id">
@@ -167,7 +166,7 @@
                                    required="1"/>
                             <field name="format_type"/>
                             <field name="export_formats"/>
-                            <field name="color" widget="color"/>
+                            <field name="color"/>  <!-- убрали widget="color" -->
                         </group>
                         <group name="statistics" string="Статистика">
                             <field name="last_execution" readonly="1"/>
@@ -180,17 +179,34 @@
 
                     <notebook>
                         <page string="Поля звіту" name="fields">
-                            <div class="oe_button_box" name="field_button_box">
-                                <button name="action_add_fields_wizard" type="object"
-                                        string="Добавить поля" class="btn-primary"
-                                        icon="fa-plus"
-                                        invisible="not model_id"/>
+                            <!-- ИСПРАВЛЕННАЯ секция с полями -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5>Поля отчета</h5>
+                                        <button name="action_add_fields_wizard" type="object"
+                                                string="Добавить поля" class="btn btn-primary"
+                                                icon="fa-plus"
+                                                invisible="not model_id"/>
+                                    </div>
+                                </div>
                             </div>
-                            <field name="field_ids" context="{'default_report_id': id}">
-                                <tree editable="bottom" decoration-muted="not visible">
+
+                            <!-- Показываем сообщение если нет полей -->
+                            <div class="alert alert-info" role="alert"
+                                 invisible="field_ids">
+                                <h6><i class="fa fa-info-circle"/> Поля не добавлены</h6>
+                                <p>Нажмите кнопку "Добавить поля" чтобы выбрать поля для отчета.</p>
+                                <p class="mb-0">Сначала выберите модель данных, затем добавляйте поля.</p>
+                            </div>
+
+                            <!-- Таблица полей -->
+                            <field name="field_ids" context="{'default_report_id': id}"
+                                   invisible="not field_ids">
+                                <tree editable="bottom" decoration-muted="not visible"
+                                      create="false" delete="true">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="field_name"
-                                           options="{'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="field_name" readonly="1"/>
                                     <field name="field_label"/>
                                     <field name="field_type" readonly="1"/>
                                     <field name="visible"/>
@@ -204,7 +220,7 @@
                                     <sheet>
                                         <group>
                                             <group>
-                                                <field name="field_name"/>
+                                                <field name="field_name" readonly="1"/>
                                                 <field name="field_label"/>
                                                 <field name="field_type" readonly="1"/>
                                                 <field name="visible"/>
@@ -226,6 +242,13 @@
                         </page>
 
                         <page string="Фільтри" name="filters">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Фильтры отчета</h5>
+                                <button name="action_add_filter" type="object"
+                                        string="Добавить фильтр" class="btn btn-secondary btn-sm"
+                                        icon="fa-filter"/>
+                            </div>
+
                             <field name="filter_ids" context="{'default_report_id': id}">
                                 <tree editable="bottom" decoration-muted="not active">
                                     <field name="sequence" widget="handle"/>
@@ -238,25 +261,6 @@
                                     <field name="active"/>
                                     <field name="required"/>
                                 </tree>
-                                <form string="Налаштування фільтра">
-                                    <sheet>
-                                        <group>
-                                            <group>
-                                                <field name="name"/>
-                                                <field name="field_name"/>
-                                                <field name="field_type" readonly="1"/>
-                                                <field name="operator"/>
-                                                <field name="active"/>
-                                            </group>
-                                            <group>
-                                                <field name="value_type"/>
-                                                <field name="value"/>
-                                                <field name="required"/>
-                                                <field name="sequence"/>
-                                            </group>
-                                        </group>
-                                    </sheet>
-                                </form>
                             </field>
                         </page>
 
@@ -304,6 +308,18 @@
                 </div>
             </form>
         </field>
+    </record>
+    <record id="action_create_new_report" model="ir.actions.act_window">
+        <field name="name">Створити новий звіт</field>
+        <field name="res_model">universal.report.builder</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{
+            'default_is_template': False,
+            'form_view_initial_mode': 'edit'
+        }</field>
+        <!-- Принудительно НЕТ RES_ID -->
+        <field name="res_id" eval="False"/>
     </record>
 
     <!-- Пошук звітів -->
@@ -381,6 +397,8 @@
             </p>
         </field>
     </record>
+
+
     <record id="action_all_reports" model="ir.actions.act_window">
         <field name="name">Всі звіти</field>
         <field name="res_model">universal.report.builder</field>
@@ -388,6 +406,8 @@
         <field name="search_view_id" ref="view_universal_report_builder_search"/>
         <field name="context">{}</field>
     </record>
+
+
 
     <record id="action_universal_report_templates" model="ir.actions.act_window">
         <field name="name">Шаблони звітів</field>

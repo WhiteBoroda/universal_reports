@@ -71,7 +71,7 @@ class UniversalReportBuilder(models.Model):
                                         string='Групи доступу')
 
     active = fields.Boolean('Активний', default=True)
-    color = fields.Integer('Колір')
+    color = fields.Integer('Колір', default=0, help='Номер цвета для Kanban (0-11)')
 
     # Примітка: При ondelete='cascade' звіти автоматично видаляються при видаленні моделі
 
@@ -425,3 +425,112 @@ class UniversalReportBuilder(models.Model):
             'target': 'new',
             'context': context
         }
+
+    def action_add_filter(self):
+        """Добавить новый фильтр"""
+        self.ensure_one()
+
+        if not self.model_id:
+            raise UserError(_('Сначала выберите модель данных'))
+
+        # Получаем доступные поля для фильтрации
+        available_fields = self.get_model_fields(self.model_id.model)
+
+        if not available_fields:
+            raise UserError(_('Нет доступных полей для фильтрации'))
+
+        # Создаем новый фильтр с первым доступным полем
+        first_field = available_fields[0]
+
+        new_filter = self.env['universal.report.filter'].create({
+            'report_id': self.id,
+            'name': _('Новый фильтр'),
+            'field_name': first_field['name'],
+            'field_type': first_field['type'],
+            'operator': '=',
+            'value': '',
+            'active': True,
+            'sequence': len(self.filter_ids) + 1
+        })
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'message': _('Фильтр добавлен. Настройте его параметры.'),
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    # ТАКЖЕ можно добавить метод для быстрого добавления полей:
+
+    def action_add_common_fields(self):
+        """Добавить популярные поля"""
+        self.ensure_one()
+
+        if not self.model_id:
+            raise UserError(_('Сначала выберите модель данных'))
+
+        # Список популярных полей
+        common_fields = ['name', 'active', 'create_date', 'write_date']
+
+        # Получаем доступные поля
+        available_fields = self.get_model_fields(self.model_id.model)
+        available_field_names = [f['name'] for f in available_fields]
+        existing_field_names = [f.field_name for f in self.field_ids]
+
+        added_count = 0
+        max_sequence = max([f.sequence for f in self.field_ids] + [0])
+
+        for field_name in common_fields:
+            if field_name in available_field_names and field_name not in existing_field_names:
+                field_info = next(f for f in available_fields if f['name'] == field_name)
+
+                self.env['universal.report.field'].create({
+                    'report_id': self.id,
+                    'field_name': field_name,
+                    'field_label': field_info['string'] or field_name,
+                    'field_type': field_info['type'],
+                    'visible': True,
+                    'sequence': max_sequence + 1,
+                    'format_type': self._guess_format_type(field_info['type'])
+                })
+                max_sequence += 1
+                added_count += 1
+
+        if added_count > 0:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'message': _('Добавлено основных полей: %d') % added_count,
+                    'type': 'success',
+                    'sticky': False,
+                }
+            }
+        else:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'message': _('Основные поля уже добавлены'),
+                    'type': 'info',
+                    'sticky': False,
+                }
+            }
+
+    def _guess_format_type(self, field_type):
+        """Автоматическое определение типа форматирования"""
+        type_map = {
+            'char': 'text',
+            'text': 'text',
+            'integer': 'number',
+            'float': 'number',
+            'monetary': 'currency',
+            'date': 'date',
+            'datetime': 'datetime',
+            'boolean': 'boolean',
+            'selection': 'selection',
+        }
+        return type_map.get(field_type, 'text')

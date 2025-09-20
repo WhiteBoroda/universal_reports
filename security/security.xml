@@ -120,12 +120,12 @@
     </record>
 
     <!-- Автоматичне надання прав базовим групам -->
-    <record id="base.group_user" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('group_universal_reports_user'))]"/>
-    </record>
+<!--    <record id="base.group_user" model="res.groups">-->
+<!--        <field name="implied_ids" eval="[(4, ref('group_universal_reports_user'))]"/>-->
+<!--    </record>-->
 
-    <!-- Права системного адміністратора -->
-    <record id="base.group_system" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('group_universal_reports_manager'))]"/>
-    </record>
+<!--    &lt;!&ndash; Права системного адміністратора &ndash;&gt;-->
+<!--    <record id="base.group_system" model="res.groups">-->
+<!--        <field name="implied_ids" eval="[(4, ref('group_universal_reports_manager'))]"/>-->
+<!--    </record>-->
 </odoo>

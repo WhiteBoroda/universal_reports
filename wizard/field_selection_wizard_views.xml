@@ -1,44 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Форма мастера выбора полей -->
     <record id="view_field_selection_wizard_form" model="ir.ui.view">
         <field name="name">report.field.selection.wizard.form</field>
         <field name="model">report.field.selection.wizard</field>
         <field name="arch" type="xml">
-            <form string="Выбор полей для отчета">
+            <form string="Добавить поля в отчет">
                 <sheet>
                     <div class="oe_title">
                         <h2>Добавить поля в отчет</h2>
-                        <p>Модель: <field name="model_id" readonly="1"/></p>
+                        <p class="text-muted">
+                            Модель: <field name="model_id" readonly="1" nolabel="1"/>
+                        </p>
                     </div>
 
-                    <group>
-                        <field name="report_id" invisible="1"/>
-                        <field name="field_selection_ids" nolabel="1">
-                            <tree editable="bottom" create="false" delete="false">
-                                <field name="selected"/>
-                                <field name="field_label"/>
-                                <field name="field_name"/>
-                                <field name="field_type"/>
-                            </tree>
-                        </field>
+                    <!-- Скрытые поля -->
+                    <group invisible="1">
+                        <field name="report_id"/>
+                        <field name="total_fields_count"/>
+                        <field name="selected_fields_count"/>
                     </group>
+
+                    <!-- Быстрые действия -->
+                    <div class="mb-3">
+                        <button name="action_select_all" type="object"
+                                string="Выбрать все"
+                                class="btn btn-sm btn-outline-primary"/>
+                        <button name="action_deselect_all" type="object"
+                                string="Снять все"
+                                class="btn btn-sm btn-outline-secondary"/>
+                        <button name="action_select_basic_fields" type="object"
+                                string="Основные поля"
+                                class="btn btn-sm btn-outline-success"/>
+                    </div>
+
+                    <!-- Счетчики -->
+                    <div class="alert alert-info mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Доступно полей:</strong>
+                                <span class="badge badge-info">
+                                    <field name="total_fields_count" readonly="1" nolabel="1"/>
+                                </span>
+                            </div>
+                            <div class="col-6">
+                                <strong>Выбрано:</strong>
+                                <span class="badge badge-success">
+                                    <field name="selected_fields_count" readonly="1" nolabel="1"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ТАБЛИЦА НА ПОЛНУЮ ШИРИНУ -->
+                    <field name="field_selection_ids" nolabel="1">
+                        <tree editable="false" create="false" delete="false"
+                              decoration-success="selected">
+                            <field name="selected" widget="boolean_toggle" string="✓"/>
+                            <field name="field_label" string="Название поля"/>
+                            <field name="field_name" string="Системное имя"/>
+                            <field name="field_type_display" string="Тип"/>
+                            <field name="field_type" invisible="1"/>
+                            <field name="is_required" string="Обязательное"/>
+                            <field name="help_text" string="Описание"/>
+                        </tree>
+                    </field>
+
+                    <!-- Подсказка -->
+                    <div class="alert alert-light mt-3">
+                        <p class="mb-0">
+                            <i class="fa fa-lightbulb-o text-warning"/>
+                            <strong>Подсказка:</strong> Выберите поля галочкой и нажмите "Добавить поля".
+                            Уже добавленные в отчет поля здесь не показываются.
+                        </p>
+                    </div>
                 </sheet>
 
                 <footer>
                     <button name="action_add_selected_fields" type="object"
-                            string="Добавить выбранные поля" class="btn-primary"/>
-                    <button string="Отмена" special="cancel" class="btn-secondary"/>
+                            string="Добавить поля"
+                            class="btn-primary"/>
+                    <button string="Отмена" special="cancel"
+                            class="btn-secondary"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <!-- Действие для мастера -->
-    <record id="action_field_selection_wizard" model="ir.actions.act_window">
-        <field name="name">Выбор полей</field>
-        <field name="res_model">report.field.selection.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
+<!--    &lt;!&ndash; Отдельное представление для улучшенного отображения строк &ndash;&gt;-->
+<!--    <record id="view_field_selection_enhanced_tree" model="ir.ui.view">-->
+<!--        <field name="name">report.field.selection.enhanced.tree</field>-->
+<!--        <field name="model">report.field.selection.line</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree editable="false" create="false" delete="false"-->
+<!--                  decoration-success="selected"-->
+<!--                  decoration-muted="not selected"-->
+<!--                  decoration-info="is_required">-->
+<!--                <field name="selected" widget="boolean_toggle" string="✓"/>-->
+<!--                <field name="field_label" string="Название поля"/>-->
+<!--                <field name="field_name" string="Системное имя"/>-->
+<!--                <field name="field_type_display" string="Тип поля"/>-->
+<!--                <field name="field_type" invisible="1"/>-->
+<!--                <field name="is_required" string="Обязательное" widget="boolean_toggle"/>-->
+<!--                <field name="help_text" string="Описание"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
 </odoo>
