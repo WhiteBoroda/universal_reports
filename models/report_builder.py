@@ -391,3 +391,37 @@ class UniversalReportBuilder(models.Model):
     def export_to_pdf(self, data):
         exporter = ReportExporter(self, data)
         return base64.b64encode(exporter.to_pdf())
+
+    @api.onchange('model_id')
+    def _onchange_model_id(self):
+        """Обновление при смене модели"""
+        if self.model_id:
+            # Очищаем существующие поля при смене модели
+            self.field_ids = [(5, 0, 0)]  # Удаляем все существующие
+            self.filter_ids = [(5, 0, 0)]
+            self.group_ids = [(5, 0, 0)]
+            self.sort_ids = [(5, 0, 0)]
+
+    def action_add_fields_wizard(self):
+        """Открыть мастер добавления полей"""
+        if not self.model_id:
+            raise UserError(_('Сначала выберите модель данных'))
+
+        # Получаем доступные поля
+        available_fields = self.get_model_fields(self.model_id.model)
+
+        # Создаем контекст с полями
+        context = {
+            'default_report_id': self.id,
+            'available_fields': available_fields,
+            'existing_fields': [f.field_name for f in self.field_ids]
+        }
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Добавить поля'),
+            'res_model': 'report.field.selection.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': context
+        }

@@ -170,6 +170,12 @@
 
                     <notebook>
                         <page string="Поля звіту" name="fields">
+                            <div class="oe_button_box" name="field_button_box">
+                                <button name="action_add_fields_wizard" type="object"
+                                        string="Добавить поля" class="btn-primary"
+                                        icon="fa-plus"
+                                        invisible="not model_id"/>
+                            </div>
                             <field name="field_ids" context="{'default_report_id': id}">
                                 <tree editable="bottom" decoration-muted="not visible">
                                     <field name="sequence" widget="handle"/>
@@ -341,7 +347,11 @@
         <field name="res_model">universal.report.builder</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="view_universal_report_builder_search"/>
-        <field name="context">{'search_default_active': 1, 'search_default_reports': 1}</field>
+        <field name="context">{
+            'search_default_active': 1,
+            'search_default_reports': 1,
+            'default_is_template': False
+        }</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Створіть ваш перший звіт!
@@ -370,18 +380,18 @@
     </record>
 
     <record id="action_universal_report_templates" model="ir.actions.act_window">
-        <field name="name">Шаблоны отчетов</field>
+        <field name="name">Шаблони звітів</field>
         <field name="res_model">universal.report.builder</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_template', '=', True)]</field>
         <field name="context">{'default_is_template': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Создайте шаблон отчета!
+                Створіть шаблон звіту!
             </p>
             <p>
-                Шаблоны отчетов можно использовать как основу
-                для создания новых отчетов.
+                Шаблони звітів можна використовувати як основу
+                для створення нових звітів.
             </p>
         </field>
     </record>

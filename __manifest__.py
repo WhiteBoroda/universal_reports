@@ -29,11 +29,12 @@
         'views/report_builder_views.xml',
         'wizard/report_wizard_views.xml',
         'wizard/export_wizard_views.xml',
+        'wizard/field_selection_wizard_views.xml',
         'views/menu_views.xml'
     ],
     'assets': {
         'web.assets_backend': [
-            'universal_reports/static/src/js/**/*',
+            'universal_reports/static/src/js/report_builder.js',
             'universal_reports/static/src/css/**/*',
         ],
     },

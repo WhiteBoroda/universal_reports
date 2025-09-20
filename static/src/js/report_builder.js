@@ -503,6 +503,6 @@ export class ReportBuilderWidget extends Component {
 }
 
 // Реєстрація компонента
-ReportBuilderWidget.template = "universal_reports.ReportBuilderWidget";
+ReportBuilderWidget.template = "ReportBuilderWidget";
 
 registry.category("actions").add("universal_reports.report_builder_action", ReportBuilderWidget);

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Головне меню -->
+<!--     Головне меню -->
     <menuitem id="menu_universal_reports_main"
               name="Звіти"
               sequence="90" />
-
-
     <!-- Підменю - только существующие actions -->
     <menuitem id="menu_universal_reports_builder"
               name="Конструктор звітів"
