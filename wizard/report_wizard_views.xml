@@ -23,7 +23,7 @@
 
                     <!-- Налаштування Excel -->
                     <group string="Налаштування Excel"
-                           invisible = "export_format != excel">
+                           invisible="export_format != 'excel'">
                         <group>
                             <field name="excel_sheet_name"/>
                             <field name="excel_include_charts"/>
@@ -36,7 +36,7 @@
 
                     <!-- Налаштування CSV -->
                     <group string="Налаштування CSV"
-                           invisible = "export_format != csv">
+                           invisible = "export_format != 'csv'">
                         <group>
                             <field name="csv_delimiter"/>
                             <field name="csv_encoding"/>
@@ -48,7 +48,7 @@
 
                     <!-- Налаштування PDF -->
                     <group string="Налаштування PDF"
-                           invisible = "export_format != pdf">
+                           invisible = "export_format != 'pdf'">
                         <group>
                             <field name="pdf_orientation"/>
                             <field name="pdf_page_size"/>
@@ -129,9 +129,9 @@
                         <group>
                             <field name="state" readonly="1"/>
                             <field name="result_count" readonly="1"
-                                   invisible="result_count = 0"/>
+                                   invisible="result_count == 0"/>
                             <field name="execution_time" readonly="1"
-                                  invisible = "execution_time=0"/>
+                                  invisible = "execution_time == 0"/>
                         </group>
                     </group>
 
@@ -152,14 +152,14 @@
 
                     <!-- Файл для завантаження -->
                     <group string="Результат експорту"
-                           invisible="result_file=False">
+                           invisible="not result_file">
                         <field name="result_filename" readonly="1"/>
                         <field name="result_file" filename="result_filename" readonly="1"/>
                     </group>
 
                     <!-- Помилки -->
                     <group string="Помилка"
-                           invisible="state!=error">
+                           invisible="state != 'error'">
                         <field name="error_message" widget="text" readonly="1"
                                class="text-danger"/>
                     </group>
@@ -171,7 +171,7 @@
                             invisible="state in ['executing', 'done']"/>
                     <button name="action_download_file" type="object"
                             string="Завантажити файл" class="btn-success"
-                            invisible="result_file=False"/>
+                            invisible="not result_file"/>
                     <button name="action_back_to_report" type="object"
                             string="Повернутися до звіту" class="btn-info"/>
                     <button name="action_close" type="object"
@@ -196,8 +196,7 @@
                     <group>
                         <field name="report_id" readonly="1" invisible="1"/>
                         <field name="export_format" widget="radio"
-                               options="{'horizontal': false}"
-                               domain="[('0', '!=', 'preview')]"/>
+                               options="{'horizontal': false}"/>
                         <field name="limit_records" string="Обмежити записи"/>
                     </group>
                 </sheet>

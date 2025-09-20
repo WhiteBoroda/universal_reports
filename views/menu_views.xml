@@ -40,16 +40,11 @@
               name="Всі звіти"
               parent="menu_universal_reports_admin"
               sequence="10"
-              groups="group_universal_reports_manager">
-
-    </menuitem>
-
+              groups="group_universal_reports_manager"/>
     <menuitem id="menu_universal_reports_users"
               name="Користувачі звітів"
               parent="menu_universal_reports_admin"
               action="base.action_res_users"
               sequence="20"
               groups="group_universal_reports_manager"/>
-
-
 </odoo>
