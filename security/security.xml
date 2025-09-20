@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
     <!-- Категорії -->
     <record id="module_category_universal_reports" model="ir.module.category">
         <field name="name">Універсальні звіти</field>
