@@ -20,7 +20,7 @@
     'author': 'HD Digital Solution',
     'website': 'https://github.com/WhiteBoroda/universal_reports.git',
     'depends': ['base', 'web', 'mail'],
-    'external_dependencies': {'python': ['xlsxwriter', 'reportlab'],},
+    'external_dependencies': {'python': ['xlsxwriter', 'reportlab']},
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',

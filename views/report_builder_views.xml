@@ -361,31 +361,14 @@
             </p>
         </field>
     </record>
-    <record id="action_universal_report_templates" model="ir.actions.act_window">
-        <field name="name">Шаблони звітів</field>
-        <field name="res_model">universal.report.builder</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="view_universal_report_builder_search"/>
-        <field name="domain">[('is_template', '=', True)]</field>
-        <field name="context">{'default_is_template': True, 'search_default_active': 1}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Створіть шаблон звіту!
-            </p>
-            <p>
-                Шаблони звітів можна використовувати як основу
-                для створення нових звітів. Це заощадить ваш час
-                при створенні схожих звітів.
-            </p>
-        </field>
-    </record>
-        <record id="action_all_reports" model="ir.actions.act_window">
+    <record id="action_all_reports" model="ir.actions.act_window">
         <field name="name">Всі звіти</field>
         <field name="res_model">universal.report.builder</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="search_view_id" ref="view_universal_report_builder_search"/>
         <field name="context">{}</field>
     </record>
+
     <record id="action_universal_report_templates" model="ir.actions.act_window">
         <field name="name">Шаблоны отчетов</field>
         <field name="res_model">universal.report.builder</field>

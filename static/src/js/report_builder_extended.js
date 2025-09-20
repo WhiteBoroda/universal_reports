@@ -4,6 +4,7 @@ import { ReportBuilderWidget } from "./report_builder";
 import { Dialog } from "@web/core/dialog/dialog";
 import { Component, useState } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
+import { registry } from "@web/core/registry";
 
 /**
  * Розширений конструктор звітів з додатковими можливостями
@@ -469,7 +470,7 @@ class BulkFieldSelectionDialog extends Component {
     }
 }
 
-BulkFieldSelectionDialog.template = "universal_reports.BulkFieldSelectionDialog";
+BulkFieldSelectionDialog.template = "BulkFieldSelectionDialog";
 BulkFieldSelectionDialog.components = { Dialog };
 
 /**
@@ -497,7 +498,7 @@ class FieldRecommendationDialog extends Component {
     }
 }
 
-FieldRecommendationDialog.template = "universal_reports.FieldRecommendationDialog";
+FieldRecommendationDialog.template = "FieldRecommendationDialog";
 FieldRecommendationDialog.components = { Dialog };
 
 // Реєстрація розширеного компонента

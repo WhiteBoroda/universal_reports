@@ -12,39 +12,40 @@
               name="Конструктор звітів"
               parent="menu_universal_reports_main"
               action="action_universal_report_builder"
-              sequence="10"
-              groups="group_universal_reports_author"/>
+              sequence="10" />
+<!--              groups="group_universal_reports_author"/> -->
 
     <menuitem id="menu_universal_reports_templates"
               name="Шаблони звітів"
               parent="menu_universal_reports_main"
               action="action_universal_report_templates"
-              sequence="20"
-              groups="group_universal_reports_author"/>
+              sequence="20" />
+<!--              groups="group_universal_reports_author"/> -->
 
     <menuitem id="menu_universal_reports_scheduler"
               name="Планувальник звітів"
               parent="menu_universal_reports_main"
               action="action_universal_report_scheduler"
-              sequence="30"
-              groups="group_universal_reports_author"/>
+              sequence="30" />
+<!--              groups="group_universal_reports_author"/> -->
 
     <!-- Підменю для адміністрування -->
     <menuitem id="menu_universal_reports_admin"
               name="Адміністрування"
               parent="menu_universal_reports_main"
-              sequence="90"
-              groups="group_universal_reports_manager"/>
+              sequence="90" />
+<!--              groups="group_universal_reports_manager"/> -->
 
     <menuitem id="menu_universal_reports_all"
               name="Всі звіти"
               parent="menu_universal_reports_admin"
-              sequence="10"
-              groups="group_universal_reports_manager"/>
+              sequence="10" />
+<!--              groups="group_universal_reports_manager"/> -->
+
     <menuitem id="menu_universal_reports_users"
               name="Користувачі звітів"
               parent="menu_universal_reports_admin"
               action="base.action_res_users"
-              sequence="20"
-              groups="group_universal_reports_manager"/>
+              sequence="20" />
+<!--              groups="group_universal_reports_manager"/> -->
 </odoo>
