@@ -119,7 +119,8 @@
                             string="Виконати звіт" class="btn-primary"
                             invisible="not active"/>
                     <button name="action_duplicate" type="object"
-                            string="Створити копію" class="btn-secondary"/>
+                            string="Створити копію" class="btn-secondary"
+                            invisible="not id"/>  <!-- Показывать только для существующих записей -->
                     <button name="action_create_scheduler" type="object"
                             string="Планувальник" class="btn-info"
                             invisible="not id"/>
@@ -134,6 +135,15 @@
                                 invisible="not id">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Планувальники</span>
+                            </div>
+                        </button>
+
+                        <!-- Кнопка копирования только для существующих записей -->
+                        <button class="oe_stat_button" type="object"
+                                name="action_duplicate" icon="fa-copy"
+                                invisible="not id">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Копіювати</span>
                             </div>
                         </button>
                     </div>

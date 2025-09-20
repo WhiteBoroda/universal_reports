@@ -214,8 +214,8 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_report_export_wizard_form"/>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">form</field>
+<!--        <field name="binding_model_id" ref="model_universal_report_builder"/>-->
+<!--        <field name="binding_view_types">form</field>-->
     </record>
 
     <!-- Дія для швидкого експорту -->
@@ -225,16 +225,16 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_report_export_wizard_simple_form"/>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">list,kanban</field>
+<!--        <field name="binding_model_id" ref="model_universal_report_builder"/>-->
+<!--        <field name="binding_view_types">list,kanban</field>-->
     </record>
 
     <!-- Дія для експорту з контекстного меню -->
     <record id="action_export_from_list" model="ir.actions.server">
         <field name="name">Експорт у Excel</field>
         <field name="model_id" ref="model_universal_report_builder"/>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">list</field>
+<!--        <field name="binding_model_id" ref="model_universal_report_builder"/>-->
+<!--        <field name="binding_view_types">list</field>-->
         <field name="state">code</field>
         <field name="code">
 # Швидкий експорт обраних звітів в Excel

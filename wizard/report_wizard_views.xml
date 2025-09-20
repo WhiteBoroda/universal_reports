@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Форма майстра експорту -->
+    <!-- ИСПРАВЛЕННЫЙ wizard/report_wizard_views.xml -->
+
+    <!-- Форма майстера експорту -->
     <record id="view_report_export_wizard_form" model="ir.ui.view">
         <field name="name">report.export.wizard.form</field>
         <field name="model">universal.report.export.wizard</field>
@@ -94,17 +96,15 @@
         </field>
     </record>
 
-    <!-- Дія майстра експорту -->
+    <!-- ИСПРАВЛЕННОЕ действие экспорта - УБИРАЕМ BINDING -->
     <record id="action_report_export_wizard" model="ir.actions.act_window">
         <field name="name">Експорт звіту</field>
         <field name="res_model">universal.report.export.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">form</field>
     </record>
 
-    <!-- Форма майстра виконання звіту -->
+    <!-- Форма майстера виконання звіту -->
     <record id="view_universal_report_wizard_form" model="ir.ui.view">
         <field name="name">universal.report.wizard.form</field>
         <field name="model">universal.report.wizard</field>
@@ -181,6 +181,15 @@
         </field>
     </record>
 
+    <!-- ИСПРАВЛЕННОЕ действие быстрого экспорта - УБИРАЕМ BINDING -->
+    <record id="action_quick_export_wizard" model="ir.actions.act_window">
+        <field name="name">Швидкий експорт</field>
+        <field name="res_model">universal.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_quick_export_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
     <!-- Простий майстер швидкого експорту -->
     <record id="view_quick_export_wizard_form" model="ir.ui.view">
         <field name="name">quick.export.wizard.form</field>
@@ -210,15 +219,41 @@
         </field>
     </record>
 
-    <!-- Дія швидкого експорту -->
-    <record id="action_quick_export_wizard" model="ir.actions.act_window">
-        <field name="name">Швидкий експорт</field>
-        <field name="res_model">universal.report.wizard</field>
+    <!-- ИСПРАВЛЕННОЕ действие копирования - УБИРАЕМ BINDING ПОЛНОСТЬЮ -->
+    <record id="action_copy_report_wizard" model="ir.actions.act_window">
+        <field name="name">Копіювати звіт</field>
+        <field name="res_model">universal.report.builder</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_quick_export_wizard_form"/>
+        <field name="view_id" ref="view_copy_report_wizard_form"/>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <!-- Майстер копіювання звіту -->
+    <record id="view_copy_report_wizard_form" model="ir.ui.view">
+        <field name="name">copy.report.wizard.form</field>
+        <field name="model">universal.report.builder</field>
+        <field name="arch" type="xml">
+            <form string="Копіювання звіту">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Копіювання звіту</h2>
+                        <p>Створення копії з можливістю змінити налаштування</p>
+                    </div>
+
+                    <group>
+                        <field name="name" string="Нова назва" required="1"/>
+                        <field name="description" string="Новий опис"/>
+                        <field name="is_template" string="Зберегти як шаблон"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_duplicate" type="object"
+                            string="Створити копію" class="btn-primary"/>
+                    <button string="Скасувати" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
     </record>
 
     <!-- Майстер планувальника -->
@@ -264,44 +299,5 @@
                 </footer>
             </form>
         </field>
-    </record>
-
-    <!-- Майстер копіювання звіту -->
-    <record id="view_copy_report_wizard_form" model="ir.ui.view">
-        <field name="name">copy.report.wizard.form</field>
-        <field name="model">universal.report.builder</field>
-        <field name="arch" type="xml">
-            <form string="Копіювання звіту">
-                <sheet>
-                    <div class="oe_title">
-                        <h2>Копіювання звіту</h2>
-                        <p>Створення копії з можливістю змінити налаштування</p>
-                    </div>
-
-                    <group>
-                        <field name="name" string="Нова назва" required="1"/>
-                        <field name="description" string="Новий опис"/>
-                        <field name="is_template" string="Зберегти як шаблон"/>
-                    </group>
-                </sheet>
-
-                <footer>
-                    <button name="action_duplicate" type="object"
-                            string="Створити копію" class="btn-primary"/>
-                    <button string="Скасувати" special="cancel" class="btn-secondary"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-
-    <!-- Дія копіювання -->
-    <record id="action_copy_report_wizard" model="ir.actions.act_window">
-        <field name="name">Копіювати звіт</field>
-        <field name="res_model">universal.report.builder</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_copy_report_wizard_form"/>
-        <field name="target">new</field>
-        <field name="binding_model_id" ref="model_universal_report_builder"/>
-        <field name="binding_view_types">form</field>
     </record>
 </odoo>
